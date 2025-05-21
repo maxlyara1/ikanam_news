@@ -7,9 +7,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-TARGET_CHANNEL_ID = "YOUR_TARGET_CHANNEL_ID" # Replace with your actual channel ID
-BOT_TOKEN = "YOUR_BOT_TOKEN" # Replace with your actual bot token
-
 async def start(update, context):
     """Sends a welcome message when the /start command is issued."""
     logger.info(f"Command /start received from user {update.effective_user.id if update.effective_user else 'Unknown'}")
@@ -65,12 +62,6 @@ async def send_formatted_news(bot, preprocessed_news_item: dict):
 def main() -> None:
     """Start the bot."""
     logger.info("Bot is starting...")
-
-    if BOT_TOKEN == "YOUR_BOT_TOKEN":
-        logger.warning("BOT_TOKEN is using the placeholder value. Please replace 'YOUR_BOT_TOKEN' with your actual bot token.")
-    
-    if TARGET_CHANNEL_ID == "YOUR_TARGET_CHANNEL_ID":
-        logger.warning("TARGET_CHANNEL_ID is using the placeholder value. Please replace 'YOUR_TARGET_CHANNEL_ID' with your actual channel ID.")
 
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(BOT_TOKEN).build()
