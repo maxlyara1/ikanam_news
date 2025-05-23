@@ -1,0 +1,26 @@
+name: dl_nlp_project
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pytorch>=2.6.0
+  - torchvision
+  - torchaudio
+  - cpuonly
+  - transformers>=4.30.0
+  - scikit-learn=1.2.2
+  - joblib
+  - numpy<2.0
+  - pandas
+  - shap
+  - matplotlib
+  - python-telegram-bot>=20.0
+  - jupyter
+  - ipywidgets
+  - libjpeg-turbo
+  - pip:
+    - tqdm
+    - telethon>=1.28.0
