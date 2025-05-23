@@ -13,16 +13,11 @@ import shap
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MultiLabelBinarizer
 
-# Импорт функции для генерации SHAP из нового файла
-# from shap_explainer import generate_shap_plots 
-
-# Вместо прямого импорта функции, которую использует telegram_bot, 
-# создадим здесь обертку, чтобы telegram_bot зависел от main.py для этой логики
 from shap_explainer import generate_shap_plots as actual_shap_generator
 
 logger = logging.getLogger(__name__)
 
-# Определение класса модели (скопировано из dl-project-haha.ipynb)
+# Определение класса модели
 class HierarchicalMultiTaskElectra(nn.Module):
     def __init__(self, model_name, num_multi_labels, num_hier_labels,
                  hier_class_weights=None, ml_pos_weight=None):
@@ -62,7 +57,6 @@ class HierarchicalMultiTaskElectra(nn.Module):
         if self.hierarchical_classifier is not None:
             hier_logits = self.hierarchical_classifier(cls_output)
 
-        # Расчет потерь не нужен для инференса, но оставим структуру, если понадобится
         current_loss = 0.0
         calculated_any_loss = False
         if self.multi_label_loss_fn is not None and ml_logits is not None and multi_labels is not None:
@@ -232,14 +226,11 @@ def preprocess_news_with_model(news_text: str) -> dict:
             final_hier_str = "Нет данных"
         
         hier_label_output = [final_hier_str]
-
-        # SHAP plot generation is REMOVED from here
             
         return {
             "text": news_text,
             "multi_labels": multi_labels_predicted,
             "hier_label": hier_label_output
-            # "shap_plots" key is no longer part of this return
         }
     except Exception as e:
         logger.error(f"Error during model prediction for text \"{news_text[:50]}...\": {e}", exc_info=True)
