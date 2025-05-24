@@ -111,7 +111,9 @@ ikanam_news/
 Процесс состоит из двух основных шагов, реализованных в Jupyter ноутбуках:
 
 ### Шаг 1: Сбор, разметка и предобработка данных (`notebooks/train_dataset_getting.ipynb`)
-![alt text](image.png)
+
+![alt text](assets/readme_images/data_preprocessing_pipeline.png)
+
 Этот ноутбук выполняет следующие задачи:
 
 1.  **Загрузка исходных данных**: Новости загружаются из CSV-файла (путь указан в `DATA_FOR_LLM_PATH` в ноутбуке).
@@ -128,9 +130,9 @@ ikanam_news/
 
 Результатом является датасет, готовый для обучения моделей классификации. Промежуточные результаты сохраняются (например, в `processed_news_partial.pkl`).
 
-![alt text](image-1.png)
-
 ### Шаг 2: Обучение моделей классификации (`notebooks/train_model_process.ipynb`)
+
+![alt text](assets/readme_images/training_model_pipeline.png)
 
 В этом ноутбуке:
 
@@ -156,9 +158,9 @@ ikanam_news/
     *   Модель оценивается на валидационной выборке.
     *   Обученная модель сохраняется (например, в `saved_models/fine_tuned_electra.pt`), вместе с `MultiLabelBinarizer` (например, `saved_models/mlb_trained.joblib`) и маппингом иерархических меток (например, `saved_models/idx_to_hier_map_trained.joblib`).
 
-![alt text](image-2.png)
-
 ## Использование Telegram-бота
+
+![alt text](assets/readme_images/tg_bot_pipeline.png)
 
 После подготовки данных и обучения моделей, можно запустить Telegram-бота.
 
