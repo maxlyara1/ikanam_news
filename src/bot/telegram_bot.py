@@ -519,23 +519,38 @@ async def handle_rian_news(event):
         logger.info(f"HANDLE_RIAN_NEWS: No users subscribed for updates (event_id: {event.message.id}).")
     else:
         logger.info(f"HANDLE_RIAN_NEWS: Relaying news (event_id: {event.message.id}) to {len(subscribers_to_notify_ids)} subscribers.")
+        # Создаем список задач для отправки новостей
+        send_tasks = []
         for user_id_to_send in subscribers_to_notify_ids:
             user_prefers_analysis = get_user_setting(user_id_to_send, "enable_analysis", False) 
             
-            logger.info(f"HANDLE_RIAN_NEWS: Sending to subscriber {user_id_to_send} (analysis enabled: {user_prefers_analysis}) for event {event.message.id}")
-            try:
-                await send_formatted_news(
-                    bot_instance=bot_to_send_with,
-                    chat_id_to_send=user_id_to_send,
-                    news_text_for_display=display_text_for_sending,
-                    news_text_for_model=raw_text_from_event, # Это текст для модели и для SHAP
-                    preprocessed_item_data=preprocessed_item,
-                    user_specific_analysis_enabled=user_prefers_analysis, 
-                    pre_generated_plot_paths=None # Ключевое изменение: SHAP будет генерироваться в send_formatted_news если нужно
-                )
-            except Exception as e_send_to_user:
-                logger.error(f"HANDLE_RIAN_NEWS: Failed to send news (event_id: {event.message.id}) to user {user_id_to_send}: {e_send_to_user}", exc_info=True)
-        logger.info(f"HANDLE_RIAN_NEWS: Finished relaying news (event_id: {event.message.id}) to {len(subscribers_to_notify_ids)} subscribers.")
+            logger.info(f"HANDLE_RIAN_NEWS: Creating task to send to subscriber {user_id_to_send} (analysis enabled: {user_prefers_analysis}) for event {event.message.id}")
+            # Создаем задачу для каждой отправки
+            task = asyncio.create_task(send_formatted_news(
+                bot_instance=bot_to_send_with,
+                chat_id_to_send=user_id_to_send,
+                news_text_for_display=display_text_for_sending,
+                news_text_for_model=raw_text_from_event, # Это текст для модели и для SHAP
+                preprocessed_item_data=preprocessed_item,
+                user_specific_analysis_enabled=user_prefers_analysis, 
+                pre_generated_plot_paths=None # Ключевое изменение: SHAP будет генерироваться в send_formatted_news если нужно
+            ))
+            send_tasks.append(task)
+
+        # Ожидаем завершения всех задач по отправке (опционально, но полезно для логгирования ошибок)
+        if send_tasks:
+            done, pending = await asyncio.wait(send_tasks, return_when=asyncio.ALL_COMPLETED)
+            for task_result in done:
+                try:
+                    task_result.result() # Проверяем наличие исключений в завершенных задачах
+                except Exception as e_task_send:
+                    # Логгирование ошибки из конкретной задачи, если необходимо
+                    # user_id можно извлечь, если передавать его в задачу или иметь доступ к аргументам
+                    logger.error(f"HANDLE_RIAN_NEWS: Error in a sending task for event {event.message.id}: {e_task_send}", exc_info=False) # exc_info=False, т.к. это будет много логов
+            if pending:
+                 logger.warning(f"HANDLE_RIAN_NEWS: Some sending tasks for event {event.message.id} are still pending after wait. This should not happen with ALL_COMPLETED.")
+
+        logger.info(f"HANDLE_RIAN_NEWS: Finished creating tasks for relaying news (event_id: {event.message.id}) to {len(subscribers_to_notify_ids)} subscribers.")
 
     logger.info(f"HANDLE_RIAN_NEWS: Completed processing for event_id: {event.message.id if event.message else 'N/A'}")
 
