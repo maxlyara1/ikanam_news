@@ -111,7 +111,7 @@ ikanam_news/
 Процесс состоит из двух основных шагов, реализованных в Jupyter ноутбуках:
 
 ### Шаг 1: Сбор, разметка и предобработка данных (`notebooks/train_dataset_getting.ipynb`)
-
+![alt text](image.png)
 Этот ноутбук выполняет следующие задачи:
 
 1.  **Загрузка исходных данных**: Новости загружаются из CSV-файла (путь указан в `DATA_FOR_LLM_PATH` в ноутбуке).
@@ -127,6 +127,8 @@ ikanam_news/
         *   Схожие подтемы объединяются на основе семантического сходства их текстовых эмбеддингов (полученных с помощью Sentence Transformer модели, например, `sergeyzh/BERTA`). Порог сходства задается `SIMILARITY_THRESHOLD`.
 
 Результатом является датасет, готовый для обучения моделей классификации. Промежуточные результаты сохраняются (например, в `processed_news_partial.pkl`).
+
+![alt text](image-1.png)
 
 ### Шаг 2: Обучение моделей классификации (`notebooks/train_model_process.ipynb`)
 
@@ -153,6 +155,8 @@ ikanam_news/
 4.  **Оценка и сохранение модели**:
     *   Модель оценивается на валидационной выборке.
     *   Обученная модель сохраняется (например, в `saved_models/fine_tuned_electra.pt`), вместе с `MultiLabelBinarizer` (например, `saved_models/mlb_trained.joblib`) и маппингом иерархических меток (например, `saved_models/idx_to_hier_map_trained.joblib`).
+
+![alt text](image-2.png)
 
 ## Использование Telegram-бота
 
