@@ -1,4 +1,4 @@
-name: dl_nlp_project
+name: ikanam_news_env
 channels:
   - pytorch
   - conda-forge
