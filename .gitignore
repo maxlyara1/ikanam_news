@@ -4,3 +4,4 @@ config.py
 .DS_Store
 config.ini
 /saved_models
+/sessions
