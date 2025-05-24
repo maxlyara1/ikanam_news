@@ -7,8 +7,6 @@ dependencies:
   - python=3.10
   - pip
   - pytorch>=2.6.0
-  - torchvision
-  - torchaudio
   - cpuonly
   - transformers>=4.30.0
   - scikit-learn=1.2.2
@@ -24,3 +22,4 @@ dependencies:
   - pip:
     - tqdm
     - telethon>=1.28.0
+    - google-generativeai
