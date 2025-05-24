@@ -1,0 +1,16 @@
+API_KEYS = 777
+
+# Telegram Bot Configuration
+BOT_TOKEN = 777
+TARGET_CHANNEL_ID = 777
+
+# Telegram Client API Configuration (для чтения из @rian_ru)
+TELEGRAM_API_ID = 777
+TELEGRAM_API_HASH = 777
+RIAN_RU_CHANNEL_USERNAME = "rian_ru"
+
+# --- SHAP Explainer Configuration ---
+SHAP_ENABLED = True  # Включить или отключить генерацию SHAP-графиков (True/False)
+SHAP_TOP_N_ML_EXPLAIN = 1  # Сколько мульти-меток объяснять (например, 1 или 2)
+SHAP_MAX_FEATURES_DISPLAY = 10 # Сколько топ-признаков показывать на waterfall графике SHAP
+SHAP_NSAMPLES = 16 # Количество сэмплов для SHAP Explainer (меньше = быстрее, но может быть менее точно)
