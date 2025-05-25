@@ -45,7 +45,7 @@
     },
     "662060157": {
         "subscribed": false,
-        "enable_analysis": true
+        "enable_analysis": false
     },
     "268378667": {
         "subscribed": false,
@@ -70,5 +70,13 @@
     "727107943": {
         "subscribed": false,
         "enable_analysis": false
+    },
+    "1903535841": {
+        "subscribed": false,
+        "enable_analysis": true
+    },
+    "992269572": {
+        "subscribed": false,
+        "enable_analysis": true
     }
 }
